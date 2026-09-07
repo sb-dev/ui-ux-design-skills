@@ -1,0 +1,11 @@
+{
+  "name": "ui-ux-design-skills",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Evidence-grounded Agent Skills for UI/UX production.",
+  "license": "MIT",
+  "scripts": {
+    "validate": "node tools/validate-repository.mjs",
+    "test": "node tools/validate-repository.mjs"
+  }
+}

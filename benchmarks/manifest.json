@@ -1,0 +1,13 @@
+{
+  "status": "scaffold",
+  "core_target_cases": 39,
+  "implemented_cases": 0,
+  "suites": [
+    "commands",
+    "skills",
+    "preservation",
+    "root-cause",
+    "end-to-end"
+  ],
+  "note": "Target coverage only. Benchmark cases are added as the corresponding production behaviour is implemented."
+}
