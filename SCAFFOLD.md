@@ -1,29 +1,32 @@
-# Stage 15 Scaffold Status
+# Scaffold Status
 
 ## Present
 
 - open-source repository shell;
-- four Stage-14-aligned canonical specs;
+- six canonical Production Skills specification responsibilities;
 - extraction candidate register;
 - four self-contained core skills;
-- eighteen P0 command contracts;
-- Extension Pack catalogue boundary;
-- five selected progressive example definitions;
+- eighteen core P0 command contracts;
+- `uiux-pack-create` support skill with five bounded authoring commands;
+- coherent Extension Pack contract and catalogue;
+- three first-wave Extension Pack skills and canonical showcase prompts;
+- fifteen primary progressive example definitions, three per level;
 - eval and benchmark surfaces;
-- minimal zero-dependency validation;
+- minimal zero-dependency repository validation;
 - CI workflow.
 
 ## Deliberately deferred
 
-- implemented Extension Pack directories;
+- semantic implementation of the full core benchmark suite;
+- complete first-wave Extension Pack behavioural eval suites;
+- clean external Skills CLI installation evidence;
 - browser/mobile/design-tool integrations;
-- semantic benchmark harness;
-- full 39-case benchmark suite;
 - deterministic UX artifact validators beyond repository structure;
 - Pactwright integration manifest;
 - hosted dashboard or workflow runtime;
-- root-level `commands/` directory.
+- root-level `commands/` directory;
+- low-level Extension Pack composition/inheritance.
 
-## Next stage
+## Next implementation gate
 
-Stage 16 configures and verifies Agent Skills installation semantics against this scaffold.
+Prove clean-project skill discovery/selective installation and the minimum end-to-end Level 5 workflow, then grow benchmark and Extension Pack evidence from real behaviour and defects.
