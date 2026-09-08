@@ -1,0 +1,34 @@
+{
+  "packs": [
+    {
+      "slug": "native-mobile-critical-flow",
+      "status": "first-wave",
+      "catalogue": "docs/06-ui-ux-design-extension-pack-catalogue.md",
+      "showcase": "extension-packs/native-mobile-critical-flow/README.md"
+    },
+    {
+      "slug": "trustworthy-ai-decision-support",
+      "status": "first-wave",
+      "catalogue": "docs/06-ui-ux-design-extension-pack-catalogue.md",
+      "showcase": "extension-packs/trustworthy-ai-decision-support/README.md"
+    },
+    {
+      "slug": "reference-driven-saas-product",
+      "status": "first-wave",
+      "catalogue": "docs/06-ui-ux-design-extension-pack-catalogue.md",
+      "showcase": "extension-packs/reference-driven-saas-product/README.md"
+    },
+    {
+      "slug": "dense-operations-workspace",
+      "status": "catalogued"
+    },
+    {
+      "slug": "developer-tool-configuration",
+      "status": "catalogued"
+    },
+    {
+      "slug": "conversion-safe-ecommerce",
+      "status": "catalogued"
+    }
+  ]
+}
