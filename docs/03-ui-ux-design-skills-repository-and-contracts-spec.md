@@ -2,22 +2,24 @@
 
 **File:** `03-ui-ux-design-skills-repository-and-contracts-spec.md`  
 **Status:** Canonical  
-**Version:** 1.1
+**Version:** 1.2
 
 ## 1. Purpose
 
-This specification defines the repository structure, Agent Skill packaging, skill and command contracts, reference material, extension packs, examples, deterministic tools, installation, validation and open-source packaging for `ui-ux-design-skills`.
+This specification defines the repository structure, Agent Skill packaging, command contracts, Extension Pack packaging, examples, deterministic tooling, installation, validation and open-source contribution rules for `ui-ux-design-skills`.
 
 The repository is a skills product, not an application framework.
 
 Its packaging must preserve:
 
-- independent skill installation;
+- independent core-skill installation;
 - agent-neutral contracts;
 - low dependency weight;
 - reproducible examples;
 - benchmarkability;
-- optional execution integrations.
+- optional execution integrations;
+- independently installable Extension Packs;
+- clean separation between core skills, support skills and pack skills.
 
 ---
 
@@ -26,15 +28,16 @@ Its packaging must preserve:
 The repository must make it possible to:
 
 1. discover available skills;
-2. install skills independently;
+2. install the four core skills independently;
 3. use them in another project without copying the repository;
 4. run focused command-level evals;
-5. run end-to-end examples;
-6. activate bounded extension packs;
-7. integrate existing execution tooling;
-8. validate artifacts deterministically;
-9. reproduce benchmark results;
-10. contribute new examples, benchmarks and extension packs without changing the core lifecycle.
+5. run end-to-end progressive examples;
+6. activate coherent Extension Packs;
+7. author new packs through `uiux-pack-create`;
+8. integrate existing execution tooling;
+9. validate artifacts and repository structure deterministically;
+10. reproduce benchmark results;
+11. contribute examples, benchmarks and packs without changing the core lifecycle.
 
 ---
 
@@ -54,21 +57,29 @@ ui-ux-design-skills/
 │   ├── 02-ui-ux-design-skills-workflows-and-artifacts-spec.md
 │   ├── 03-ui-ux-design-skills-repository-and-contracts-spec.md
 │   ├── 04-testing-and-benchmark-spec.md
+│   ├── 05-ui-ux-design-customisation-packs-spec.md
+│   ├── 06-ui-ux-design-extension-pack-catalogue.md
 │   └── extraction-candidates.md
 │
 ├── skills/
 │   ├── uiux-research/
 │   ├── uiux-design/
 │   ├── uiux-evaluate/
-│   └── uiux-handoff/
+│   ├── uiux-handoff/
+│   ├── uiux-pack-create/
+│   ├── native-mobile-critical-flow/
+│   ├── trustworthy-ai-decision-support/
+│   └── reference-driven-saas-product/
 │
 ├── extension-packs/
 │   ├── README.md
-│   ├── product-interaction/
-│   ├── human-science/
-│   └── design-specialisation/
+│   ├── manifest.json
+│   ├── native-mobile-critical-flow/
+│   ├── trustworthy-ai-decision-support/
+│   └── reference-driven-saas-product/
 │
 ├── examples/
+│   ├── README.md
 │   ├── level-1-*/
 │   ├── level-2-*/
 │   ├── level-3-*/
@@ -98,16 +109,30 @@ Only create optional directories when real requirements justify them.
 
 ---
 
-## 4. Core Skills
+## 4. Six Canonical Specification Responsibilities
 
-The installable core is:
+A mature repository must cover:
+
+1. **System** — mission, scope, architecture, core skills and boundaries.
+2. **Workflows and Artifacts** — evidence, design, fidelity, approval, preservation, evaluation and handoff.
+3. **Repository and Contracts** — packaging, commands, installation and repository acceptance.
+4. **Testing and Benchmark** — deterministic and semantic evals, regression and release gates.
+5. **Customisation Packs** — pack semantics, precedence, packaging, authoring and differential evaluation.
+6. **Extension Pack Catalogue** — curated coherent packs, showcases, exact prompts and implementation status.
+
+The filenames above are canonical for this repository.
+
+---
+
+## 5. Core Skills
+
+The production core is exactly:
 
 ```text
-skills/
-├── uiux-research/
-├── uiux-design/
-├── uiux-evaluate/
-└── uiux-handoff/
+uiux-research
+uiux-design
+uiux-evaluate
+uiux-handoff
 ```
 
 Do not add separate core skills for:
@@ -121,48 +146,63 @@ Do not add separate core skills for:
 - design systems;
 - orchestration.
 
-Those concerns remain commands, references, extension packs or external execution.
+Those remain core responsibilities inside the four skills, bounded commands/references, or optional specialist pack behaviour where justified.
 
 ---
 
-## 5. Skill Self-Containment
+## 6. Support Skill
+
+`uiux-pack-create` is an installable support skill, not part of the four-skill production chain.
+
+Its commands are:
+
+```text
+pack:inspect
+pack:create
+pack:example
+pack:evals
+pack:validate
+```
+
+The support skill must inspect the existing catalogue before authoring a new pack and reject taxonomy-only or core-duplicating pack proposals.
+
+---
+
+## 7. Skill Self-Containment
 
 Each installable skill must contain everything necessary for its own reasoning contract.
 
-A skill may reference external tools conditionally, but installation must not fail because those tools are absent.
+A skill may reference optional external tools conditionally, but installation must not fail because those tools are absent.
 
-A skill should not require another core skill to be installed.
+Core skills must not require another core skill to be installed.
 
-If upstream artifacts are missing, the skill should:
+A pack skill may assume that the consuming agent can also use relevant core skills, but its own instructions and references must remain self-contained.
 
-- use available context;
-- declare uncertainty;
-- state which evidence is unavailable;
-- continue where meaningful.
+If upstream artifacts are missing, a core skill should use available context, declare uncertainty and continue only where meaningful.
 
 ---
 
-## 6. Canonical Skill Directory
+## 8. Canonical Skill Directory
 
 A skill directory may contain:
 
 ```text
 skills/uiux-design/
 ├── SKILL.md
+├── commands/
 ├── references/
 ├── scripts/
-└── assets/
+├── assets/
+└── evals/
 ```
 
-Only `SKILL.md` is mandatory.
+Only create directories that contain useful material.
 
-Create `references/`, `scripts/` or `assets/` only when the skill genuinely needs them.
-
-Avoid directory symmetry for its own sake.
+`SKILL.md` is the minimum installable contract.
 
 ---
 
-## 7. `SKILL.md` Contract
+## 9. Core `SKILL.md` Contract
 
 Every core `SKILL.md` should define:
 
@@ -189,45 +229,9 @@ The contract should remain operational rather than descriptive.
 
 ---
 
-## 8. Skill Activation
+## 10. Core Command Contract
 
-A skill should state when it applies.
-
-Examples:
-
-### `uiux-research`
-
-Activate when:
-
-- the human problem is uncertain;
-- evidence must be interpreted;
-- interaction requirements are not yet defensible.
-
-### `uiux-design`
-
-Activate when:
-
-- sufficient requirements exist to explore interaction strategies.
-
-### `uiux-evaluate`
-
-Activate when:
-
-- a design, flow, prototype or implementation must be validated or diagnosed.
-
-### `uiux-handoff`
-
-Activate when:
-
-- selected UX must become an engineering-ready behavioural contract.
-
----
-
-## 9. Commands
-
-Commands expose independently useful and independently testable production operations.
-
-P0 command set:
+The P0 command set remains:
 
 ```text
 uiux-research
@@ -257,62 +261,19 @@ uiux-handoff
 └── verify-traceability
 ```
 
-Total: 18 P0 commands.
+Total: 18 core P0 commands.
+
+Commands remain under their owning skill. Do not create a root-level universal `commands/` runtime.
+
+A command should exist only when it is independently useful, independently testable and repeated within the skill.
 
 ---
 
-## 10. Command Granularity
-
-Good commands name observable production operations:
-
-```text
-map-task
-generate-alternatives
-select-fidelity
-diagnose-failure
-verify-preservation
-```
-
-Avoid vague commands such as:
-
-```text
-think
-analyse
-improve
-review
-```
-
-A command should exist only when it is:
-
-```text
-independently useful
-+
-independently testable
-+
-repeated within the skill
-```
-
----
-
-## 11. Command Representation
-
-The repository may expose commands as:
-
-- dedicated command files;
-- named sections referenced by `SKILL.md`;
-- agent-specific command wrappers generated from canonical definitions.
-
-The canonical contract should remain agent-neutral.
-
-Do not duplicate command logic separately for each supported agent unless packaging requires a thin wrapper.
-
----
-
-## 12. Shared Artifacts
+## 11. Shared Artifacts
 
 Skills interoperate through stable artifacts rather than internal APIs.
 
-Typical project workspace:
+Typical consumer workspace:
 
 ```text
 ux/
@@ -330,9 +291,11 @@ ux/
 
 A consumer project may use different paths if the skill can resolve them.
 
+Project artifacts belong to the consuming project, not this repository.
+
 ---
 
-## 13. Artifact Contract Validation
+## 12. Artifact Validation
 
 Project-native deterministic tooling may validate:
 
@@ -342,68 +305,41 @@ Project-native deterministic tooling may validate:
 - hypothesis shape;
 - approval references;
 - traceability;
-- required state completeness.
+- required-state completeness.
 
-The repository should not enforce an unnecessarily rigid schema where Markdown remains sufficient.
-
-Prefer lintable conventions over a database.
+Prefer lintable conventions and Markdown over rigid schemas or databases until real need proves otherwise.
 
 ---
 
-## 14. Reference Material
+## 13. Reference Material
 
-References contain durable specialist knowledge needed by a skill but too large or detailed for the main `SKILL.md`.
+References contain durable specialist knowledge too large or detailed for a `SKILL.md`.
 
-Potential references:
-
-### `uiux-research`
+Potential core references include:
 
 ```text
-evidence-model.md
-human-problem-model.md
-human-science-translation.md
-research-methods.md
+uiux-research
+→ evidence model, human-problem model, human-science translation, research methods
+
+uiux-design
+→ interaction hypotheses, task/flow, fidelity strategy, preservation
+
+uiux-evaluate
+→ evaluation model, root-cause model, accessibility, human performance
+
+uiux-handoff
+→ interaction contract, acceptance criteria, traceability
 ```
 
-### `uiux-design`
-
-```text
-interaction-hypothesis.md
-task-and-flow.md
-fidelity-strategy.md
-design-preservation.md
-```
-
-### `uiux-evaluate`
-
-```text
-evaluation-model.md
-root-cause-model.md
-accessibility-evaluation.md
-human-performance.md
-```
-
-### `uiux-handoff`
-
-```text
-interaction-contract.md
-acceptance-criteria.md
-handoff-traceability.md
-```
-
-Do not create every file before size and reuse justify the split.
+Do not split references prematurely.
 
 ---
 
-## 15. Scripts
+## 14. Native Scripts
 
-Native scripts must satisfy:
+Native scripts are justified only when they encode a project-specific deterministic invariant that no mature external tool already owns.
 
-1. project-specific invariant;
-2. deterministic result;
-3. no mature external tool already owns the operation.
-
-Likely script categories:
+Likely categories:
 
 ```text
 validate-artifacts
@@ -411,7 +347,7 @@ validate-provenance
 validate-hypotheses
 validate-preservation
 validate-handoff
-small metric calculators
+small benchmark calculators
 ```
 
 Do not implement:
@@ -426,327 +362,208 @@ analytics service
 
 ---
 
-## 16. Runtime Constraints
-
-Native tools should be:
-
-- cross-platform where practical;
-- dependency-light;
-- CLI-invokable;
-- deterministic;
-- independently testable;
-- agent-neutral;
-- not dependent on a long-running service.
-
-The implementation language should be chosen during repository implementation based on actual tool needs rather than mandated by this specification.
-
----
-
-## 17. External Capability Detection
+## 15. External Capability Detection
 
 Skills should prefer existing consumer-project tooling.
 
-Conceptual sequence:
+Examples:
 
 ```text
-need browser validation?
-→ detect Playwright
-→ use if available
-→ recommend installation only if materially justified
-→ otherwise produce lower-fidelity/manual validation protocol
+browser interaction       Playwright
+screenshots               Playwright
+web accessibility         axe
+component state           existing Storybook
+mobile flow               Maestro / existing Appium
+design-tool integration   optional Figma
+external research         dedicated research tooling
+production implementation Software Engineering
 ```
 
-Equivalent behaviour applies to:
-
-- axe;
-- Storybook;
-- Maestro;
-- Appium;
-- Figma;
-- analytics infrastructure.
+These are not core package dependencies.
 
 Missing tools reduce automation. They do not invalidate the UX workflow.
 
 ---
 
-## 18. Execution Integrations
+## 16. Extension Pack Packaging
 
-Recommended defaults where present or justified:
+The normative contract is `docs/05-ui-ux-design-customisation-packs-spec.md`.
+
+Implemented packs are installable Agent Skills:
 
 ```text
-browser interaction       Playwright
-screenshots               Playwright
-visual regression         Playwright / existing provider
-web accessibility         axe
-component state           Storybook
-mobile flow               Maestro / existing Appium
-design-tool integration   Figma
-external research         dedicated research tooling
-production implementation software engineering
+skills/<pack>/SKILL.md
 ```
 
-These are not core package dependencies.
+The canonical discovery/showcase surface is:
+
+```text
+extension-packs/<pack>/README.md
+```
+
+The implemented catalogue index is:
+
+```text
+extension-packs/manifest.json
+```
+
+The manifest should record only useful discovery fields such as:
+
+```text
+slug
+status
+catalogue
+showcase
+skill path when implemented
+benchmark case when implemented
+```
+
+Do not add marketplace ranking, pricing, download counts or speculative provider metadata.
 
 ---
 
-## 19. Extension Packs
-
-Logical structure:
-
-```text
-extension-packs/
-├── product-interaction/
-│   ├── mobile-native/
-│   ├── saas-dashboard/
-│   ├── developer-tools/
-│   ├── ecommerce/
-│   ├── content-media/
-│   └── landing-page/
-│
-├── human-science/
-│   ├── cognitive-science/
-│   ├── human-factors/
-│   ├── behavioural-science/
-│   ├── trust-and-ai-interaction/
-│   └── ux-measurement/
-│
-└── design-specialisation/
-    ├── motion-design/
-    ├── design-system/
-    ├── reference-driven-design/
-    ├── immersive-web/
-    └── conversion-design/
-```
-
-Only first-wave packs need implementation initially.
-
----
-
-## 20. Extension-Pack Contract
+## 17. Extension Pack Contract
 
 Each implemented pack must define:
 
 ```text
-name
-class
-purpose
-version
-scope
-activation conditions
-non-goals
-modified core skills
-production-rule deltas
-references
-specialised evaluation
-tool preferences
-compatibility
-conflicts
-example prompt
+identity
+intended use
+activation
+production profile
+affected core skills
+what remains stable
+precedence
+boundaries
+evaluation behaviour
+tool preferences where relevant
 showcase
-benchmarks
 ```
 
-Packs contain deltas only. Do not duplicate the full core lifecycle.
+Packs contain specialist deltas and profile guidance. They do not duplicate the full core lifecycle.
+
+Core responsibilities such as human-science reasoning, accessibility, measurement discipline and design-system reasoning must not disappear when no pack is active.
 
 ---
 
-## 21. First-Wave Packs
+## 18. First-Wave Packs
 
-Implement only after the core Level 5 workflow succeeds:
+The first-wave reference implementations are:
 
 ```text
-mobile-native
-trust-and-ai-interaction
-reference-driven-design
+native-mobile-critical-flow
+trustworthy-ai-decision-support
+reference-driven-saas-product
 ```
 
-This proves:
+They prove three distinct reusable production grammars:
 
-- product/environment specialisation;
-- human-science specialisation;
-- design-craft specialisation.
+- mobile lifecycle/recovery;
+- consequential AI-assisted judgement;
+- reference-informed SaaS design.
 
-Remaining packs stay catalogued until evidence justifies implementation.
+The catalogue also specifies additional profiles that may remain unimplemented until evidence justifies them.
 
 ---
 
-## 22. Pack Composition
+## 19. Pack Composition
 
-Several packs may be active simultaneously.
+The initial architecture does not require low-level pack composition.
 
-Prefer orthogonal composition:
+Prefer:
 
 ```text
-product context
+one coherent pack
 +
-human-science lens
-+
-design specialisation
+explicit project requirements
 ```
 
-If two packs conflict:
+Do not add dependency solvers, inheritance or last-loaded-wins semantics.
 
-```text
-identify conflict
-→ preserve both rules
-→ resolve explicitly in context
-→ record decision
-```
-
-No automatic dependency solver or last-loaded-wins behaviour.
+Composition may be revisited only when repeated real projects demonstrate stable independent recombination needs.
 
 ---
 
+## 20. Pack Authoring
 
-
-### 22.1 Extension-Pack Activation Ownership
-
-Persistent Extension Pack selection belongs to the consuming project or user.
-
-Use four activation modes:
+`uiux-pack-create` follows:
 
 ```text
-EXPLICIT
-→ use the pack requested by the user
-
-CONFIGURED
-→ use packs already selected by the consuming project
-
-SUGGESTED
-→ recommend a pack when it may materially improve the work
-
-TEMPORARY INFERENCE
-→ apply pack behaviour only for the current operation when relevance is unambiguous; disclose it and do not persist selection automatically
+pack:inspect
+→ pack:create
+→ pack:example
+→ pack:evals
+→ pack:validate
 ```
 
-A skill must never silently convert contextual inference into durable project configuration.
+A new pack must demonstrate:
 
-
-## 23. Pack Authoring
-
-A future `create-extension-pack` capability should follow:
-
-```text
-identify repeated need
-→ prove concern does not belong in core
-→ define scope
-→ identify affected skills
-→ define production-rule deltas
-→ define evaluation deltas
-→ create example
-→ create benchmarks
-→ test core + pack
-→ test composition
-→ publish
-```
-
-Do not implement the authoring skill before real packs validate the contract.
+- repeated cross-project usefulness;
+- material behavioural difference;
+- non-duplication of core responsibility;
+- a complete copyable showcase prompt;
+- activation, boundary, precedence, preservation and core-vs-pack eval coverage.
 
 ---
 
-## 24. Progressive Examples
+## 21. Progressive Examples
 
-Logical catalogue:
+The canonical public catalogue is exactly 15 primary examples:
 
 ```text
 LEVEL 1
 ├── destructive-confirmation
 ├── inline-form-validation
-├── search-and-filter
-└── ai-suggestion-control
+└── search-and-filter
 
 LEVEL 2
 ├── mobile-account-recovery
 ├── guest-checkout
-├── create-and-publish
 └── api-permission-setup
 
 LEVEL 3
-├── mobile-onboarding
-├── saas-analytics
-├── deployment-configuration
 ├── ai-assisted-support
+├── saas-analytics
 └── reference-driven-developer-portal
 
 LEVEL 4
 ├── operations-review-workspace
 ├── ecommerce-account-area
-├── media-discovery-and-playback
-├── ai-analyst-workspace
-└── mobile-appointment-area
+└── media-discovery-and-playback
 
 LEVEL 5
 ├── interrupted-financial-decision
-├── ai-regulatory-prioritisation
-├── mobile-recovery-redesign
-├── reference-driven-saas-redesign
 ├── conflicting-evidence-redesign
-├── failed-interaction-hypothesis
-└── implementation-regression
+└── failed-interaction-hypothesis
 ```
 
-The catalogue describes target coverage, not mandatory first-release implementation.
+Additional examples may exist as supplementary showcases or regression fixtures without changing the 15-example public learning set.
 
 ---
 
-## 25. Example Contract
+## 22. Example Contract
 
-Each example should contain logical equivalents of:
-
-```text
-problem
-prompt
-fixtures
-expected properties
-evaluation
-README
-```
-
-Suggested metadata:
+Each primary example must contain:
 
 ```text
-id
 level
-product class
-problem
-core skills
-commands
-extensions
-evidence
-expected artifacts
-required decisions
-evaluation
-deliberate traps
+product context
+complete copyable generation prompt
+requirements
+workflow
+optimisation priorities
+primary benchmark focus
 ```
 
-Examples must be runnable independently.
+When implemented with fixtures, it should also contain realistic evidence, expected properties, deliberate traps and an evaluation contract.
+
+Examples must not contain hidden answer keys disguised as source material.
+
+Multiple valid UX solutions may pass.
 
 ---
 
-## 26. Example Fixtures
-
-Use realistic fixtures such as:
-
-```text
-analytics.csv
-support-tickets.md
-interview-transcripts/
-screenshots/
-existing-flow.md
-product-context.md
-scientific-evidence.md
-design-system/
-prototype/
-implementation/
-```
-
-Fixtures should not contain hidden answer keys disguised as source material.
-
-Higher-level examples should include supporting, conflicting, irrelevant and incomplete evidence.
-
----
-
-## 27. Evals and Benchmarks
+## 23. Evals and Benchmarks
 
 Logical structure:
 
@@ -766,71 +583,82 @@ benchmarks/
 └── root-cause/
 ```
 
-The testing specification owns exact behaviour.
+`04-testing-and-benchmark-spec.md` owns exact behaviour.
 
 ---
 
-## 28. Installation
+## 24. Installation
 
 Use the Agent Skills CLI.
 
 List available skills:
 
 ```bash
-npx skills add <org>/ui-ux-design-skills --list
+npx skills add sb-dev/ui-ux-design-skills --list
 ```
 
-Selective installation:
+Selective core installation:
 
 ```bash
-npx skills add <org>/ui-ux-design-skills \
+npx skills add sb-dev/ui-ux-design-skills \
   --skill uiux-design \
   --skill uiux-evaluate \
   --agent claude-code
 ```
 
+Pack-author installation:
+
+```bash
+npx skills add sb-dev/ui-ux-design-skills \
+  --skill uiux-pack-create \
+  --agent claude-code
+```
+
 Project-local installation is the default.
 
-Do not silently install optional browser/design/mobile runtimes with the core skills package.
+Do not silently install optional browser/design/mobile runtimes.
 
 ---
 
-## 29. Installation Requirements
+## 25. Installation Requirements
 
-Every core skill must:
+Every installable skill must:
 
 - be discoverable;
-- install independently;
+- install independently where its contract permits;
 - resolve local references after installation;
-- avoid references to repository-only paths that are absent in the consumer project;
+- avoid repository-only runtime paths absent in the consumer project;
 - keep optional tools optional;
 - remain usable in a clean consumer project.
 
-Extension installation semantics must be documented explicitly before release.
+Local source-checkout validation and clean external installation are separate gates.
 
 ---
 
-## 30. Local Validation
+## 26. Local Validation
 
 Before publication verify:
 
 ```text
-✓ every skill is discoverable
-✓ every skill installs independently
-✓ SKILL.md contracts validate
-✓ references resolve
-✓ P0 commands can be exercised independently
+✓ six canonical specifications are present
+✓ four core skills are present
+✓ 18 core P0 command contracts are present
+✓ uiux-pack-create and its five commands are present
+✓ 15 primary example READMEs are present
+✓ every primary example includes a complete prompt
+✓ Extension Pack catalogue and manifest are present
+✓ first-wave showcase READMEs are present
+✓ first-wave pack skills are present
 ✓ deterministic tests pass
 ✓ at least one Level 1 workflow completes
-✓ at least one Level 5 vertical workflow completes
-✓ extension packs do not redefine core lifecycle
-✓ benchmark fixtures execute
+✓ at least one Level 5 vertical completes
+✓ packs do not redefine core lifecycle
 ✓ clean consumer-project installation succeeds
 ```
 
 ---
 
-## 31. External Smoke Test
+## 27. External Smoke Test
 
 After publication verify:
 
@@ -839,79 +667,46 @@ After publication verify:
 ✓ CI passes
 ✓ README installation commands work
 ✓ skills list correctly
-✓ skills install individually
+✓ core skills install individually
+✓ uiux-pack-create installs
+✓ implemented packs are discoverable/installable
 ✓ one clean consumer project completes a UI/UX workflow
-✓ extension examples are reproducible
-✓ benchmark command is documented
+✓ benchmark entry point is documented
 ✓ at least two agent targets are tested where practical
 ```
 
-Only then is the repository implementation-ready.
-
 ---
 
-## 32. CI
+## 28. CI
 
-CI should initially focus on:
+CI should focus on:
 
 - repository integrity;
 - skill contract validation;
 - deterministic tests;
-- example fixture integrity;
+- example-prompt integrity;
+- pack-showcase integrity;
 - benchmark smoke tests;
 - installation smoke tests.
 
-Do not build a large hosted evaluation platform.
+Do not build a hosted evaluation platform unless benchmark volume proves the need.
 
 ---
 
-## 33. Benchmark Outputs
-
-Initial evaluation outputs should be ordinary files:
-
-```text
-results.json
-results.md
-```
-
-This is sufficient for CI and release review.
-
-A dashboard is explicitly deferred until benchmark volume demonstrates a real need.
-
----
-
-## 34. Versioning
+## 29. Versioning
 
 Version:
 
 - core skill contracts;
-- extension packs;
+- support skill contracts;
+- Extension Packs;
 - benchmarks where material changes affect comparability.
 
-A benchmark definition change that alters expected behaviour should be recorded rather than silently compared to old results.
+Benchmark definition changes that alter expected behaviour must be recorded rather than silently compared with old baselines.
 
 ---
 
-## 35. Compatibility
-
-Core contracts should describe capabilities rather than vendors.
-
-Prefer:
-
-```text
-capture rendered state
-run browser interaction
-perform deterministic accessibility scan
-write to design tool
-```
-
-over embedding one provider into the lifecycle.
-
-Default adapters may still be recommended.
-
----
-
-## 36. Security and Privacy
+## 30. Security and Privacy
 
 Skills and tools must respect consumer-project access controls.
 
@@ -927,63 +722,26 @@ Local execution is preferred where equivalent.
 
 ---
 
-## 37. Open-Source Contribution Rules
+## 31. Contribution Rules
 
-Contributions should preserve:
+A new Extension Pack requires:
 
-- core lifecycle;
-- evidence boundaries;
-- installability;
-- independent skill packaging;
-- benchmarkability.
+- demonstrated reusable need;
+- clear activation and boundaries;
+- production profile;
+- affected core skills;
+- stable core invariants;
+- complete showcase prompt;
+- behavioural evals;
+- catalogue entry.
 
-A new extension pack requires:
+A new primary example requires a clear capability gap in the existing 15-example set. Otherwise prefer a supplementary or regression example.
 
-- clear scope;
-- activation rules;
-- production deltas;
-- evaluation deltas;
-- example;
-- benchmark.
-
-A new example requires:
-
-- problem;
-- fixtures;
-- expected behaviour;
-- benchmark criteria;
-- known traps.
-
-A new benchmark requires:
-
-- fixture;
-- target behaviour;
-- expected properties;
-- prohibited behaviours;
-- rubric;
-- defect classification.
+A new benchmark requires a fixture, target behaviour, expected properties, prohibited behaviours, rubric and defect classification.
 
 ---
 
-## 38. Extraction Candidates
-
-`docs/extraction-candidates.md` records concepts that might later become shared production-family abstractions.
-
-Examples may include:
-
-- preservation tests;
-- progressive examples;
-- extension-pack deltas;
-- root-cause evaluation;
-- deterministic/semantic split.
-
-Do not extract automatically.
-
-Promotion requires demonstrated need in at least two production domains.
-
----
-
-## 39. Anti-Over-Engineering Rules
+## 32. Anti-Over-Engineering Rules
 
 Do not initially add:
 
@@ -991,14 +749,14 @@ Do not initially add:
 - workflow service;
 - agent hierarchy;
 - universal adapter layer;
-- extension dependency solver;
+- Extension Pack dependency solver;
 - nested pack inheritance;
 - benchmark database;
 - custom benchmark DSL;
 - hosted dashboard;
 - continuous monitoring service.
 
-The repository should begin as:
+The repository should remain:
 
 ```text
 Agent Skills
@@ -1009,6 +767,8 @@ small deterministic scripts
 +
 examples
 +
+Extension Packs
++
 benchmarks
 +
 CI
@@ -1016,16 +776,29 @@ CI
 
 ---
 
-## 40. Repository Acceptance Criteria
+## 33. Extraction Candidates
+
+`docs/extraction-candidates.md` records concepts that might later become family abstractions.
+
+Do not extract automatically.
+
+Promotion requires substantially the same operational need in at least two independent Production Skills domains.
+
+---
+
+## 34. Repository Acceptance Criteria
 
 The repository satisfies this specification when:
 
-- the four core skills are packaged independently;
-- 18 P0 commands have canonical definitions;
+- six canonical specification responsibilities are represented;
+- four core skills remain independently packaged;
+- 18 core P0 commands have canonical definitions;
+- `uiux-pack-create` has five bounded authoring commands;
 - shared artifacts use stable contracts;
 - optional execution dependencies remain optional;
-- first-wave extension packs can be added without changing core skill semantics;
-- progressive examples are independently reproducible;
+- 15 primary progressive examples have complete prompts;
+- first-wave Extension Packs can be installed without changing core semantics;
+- pack showcases and catalogue are reproducible;
 - deterministic tools remain small and project-specific;
 - clean installation works;
 - benchmark and smoke-test entry points are documented;
@@ -1033,4 +806,4 @@ The repository satisfies this specification when:
 
 ---
 
-*UI/UX Design Skills — Repository and Contracts Specification v1.1*
+*UI/UX Design Skills — Repository and Contracts Specification v1.2*
