@@ -2,12 +2,20 @@
   "status": "scaffold",
   "core_target_cases": 39,
   "implemented_cases": 0,
+  "primary_progressive_examples": 15,
+  "first_wave_extension_packs": 3,
   "suites": [
     "commands",
     "skills",
+    "progressive-examples",
+    "research",
+    "human-science",
     "preservation",
     "root-cause",
-    "end-to-end"
+    "end-to-end",
+    "extension-packs",
+    "pack-authoring",
+    "installation"
   ],
-  "note": "Target coverage only. Benchmark cases are added as the corresponding production behaviour is implemented."
+  "note": "The 39-case target remains the core capability baseline. Progressive examples may satisfy overlapping core cases when their fixtures and rubrics genuinely cover the behaviour. Extension Pack, pack-authoring and installation cases are additional and are implemented as the corresponding production behaviour becomes executable."
 }
