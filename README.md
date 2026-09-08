@@ -4,30 +4,26 @@
 
 UI/UX Design Skills gives AI coding agents a production workflow for turning human and product evidence into validated interaction decisions and implementation-ready UX contracts.
 
-It supports the UI/UX process from problem framing to engineering handoff:
+It supports:
 
-- **Research and problem framing**: product context, evidence intake, provenance, human problems, candidate mechanisms and interaction requirements
-- **Interaction design**: task models, information architecture, flows, structural alternatives, interaction hypotheses and state behaviour
-- **Fidelity and prototyping strategy**: resolve uncertainty with the cheapest useful representation before increasing fidelity
-- **Evaluation and repair**: requirement validation, accessibility, preservation checks, human-performance evaluation, root-cause diagnosis and bounded refinement
-- **Handoff**: behavioural contracts, responsive behaviour, accessibility requirements, acceptance criteria and evidence-to-implementation traceability
-- **Specialisation**: optional Extension Packs for product contexts, human-science lenses and design disciplines
+- **Research and problem framing**: context, evidence, provenance, human problems, mechanisms and interaction requirements
+- **Interaction design**: task models, IA, flows, structural alternatives, hypotheses and state behaviour
+- **Fidelity strategy**: resolve uncertainty with the cheapest useful representation before increasing fidelity
+- **Evaluation and repair**: accessibility, preservation, human-performance evaluation, root-cause diagnosis and bounded refinement
+- **Handoff**: behavioural contracts, responsive behaviour, accessibility requirements, acceptance criteria and traceability
+- **Specialisation**: coherent Extension Packs for reusable specialist UX production grammars
 
-The workflow is designed to understand before designing, explore cheaply, select deliberately, preserve approved decisions, increase fidelity only when the unresolved question requires it, validate the result, and revise only the layer that failed.
+The workflow is designed to understand before designing, explore cheaply, select deliberately, preserve approved decisions, increase fidelity only when the unresolved question requires it, validate the result and revise only the layer that failed.
 
 ## Approval and fidelity control
 
 Selection and approval are different commitments.
 
-- **Selected** means “keep developing this direction”. Selection may be made when one candidate clearly satisfies the requirements better than the others or when the user has delegated the choice.
+- **Selected** means keep developing this direction.
 - **Approved** means downstream design or engineering may rely on the decision.
 - **Reopened** means new evidence or a diagnosed upstream defect justifies revisiting an approved decision.
 
-Human approval is preferred for high-impact UX decisions such as task structure, information architecture, consequential interaction models, AI authority boundaries and major product-area redesigns.
-
-Before increasing fidelity, stabilise the decisions that materially affect the next step. A task-order question can be tested as a written flow. Navigation structure can be tested as IA. Layout can be tested as a wireframe. Behaviour can be tested as an interactive prototype. High-fidelity visual work is justified only when the unresolved question requires that fidelity.
-
-Cost and complexity control come primarily from workflow design:
+Use the cheapest representation capable of resolving the uncertainty:
 
 ```text
 problem statement instead of screen generation
@@ -38,11 +34,11 @@ representative states instead of every screen
 local correction instead of whole-design regeneration
 ```
 
-A local hierarchy defect should not cause the task model to be rewritten. An implementation regression should not trigger a UX redesign. Higher-fidelity work must preserve approved upstream decisions unless evidence explicitly reopens them.
+Higher-fidelity work must preserve approved upstream decisions unless evidence explicitly reopens them.
 
 ## Install
 
-Install all UI/UX Design Skills for Claude Code:
+Install the four core skills for Claude Code:
 
 ```bash
 npx skills add sb-dev/ui-ux-design-skills \
@@ -55,29 +51,26 @@ npx skills add sb-dev/ui-ux-design-skills \
 
 For Codex, use `--agent codex` instead.
 
-Project-local installation is the default. Global installation is optional:
-
-```bash
-npx skills add sb-dev/ui-ux-design-skills --global
-```
-
-List the available skills:
+List all available core, support and Extension Pack skills:
 
 ```bash
 npx skills add sb-dev/ui-ux-design-skills --list
 ```
 
-Playwright, axe, Storybook, Maestro, Appium and Figma are optional execution capabilities. They are not installed or required by the core skills.
+Install the pack-authoring support skill when needed:
 
-The exact clean-project installation and selective-installation contract is the next bootstrap validation step.
+```bash
+npx skills add sb-dev/ui-ux-design-skills \
+  --skill uiux-pack-create \
+  --agent claude-code
+```
+
+Project-local installation is the default. Playwright, axe, Storybook, Maestro, Appium and Figma are optional execution capabilities, not core dependencies.
 
 ## Quick start — Destructive Confirmation
 
-Start with one bounded interaction and learn the core design/evaluation loop before introducing full research, product-area architecture or high-fidelity execution.
-
 ```text
-Use uiux-design and uiux-evaluate to design a proportionate confirmation
-interaction for permanently deleting a project containing multiple assets.
+Use uiux-design and uiux-evaluate to design a proportionate confirmation interaction for permanently deleting a project containing multiple assets.
 
 Requirements:
 - Cover confirmation, processing, success and failure states
@@ -85,7 +78,8 @@ Requirements:
 - Prevent accidental destructive action without adding unnecessary friction
 - Do not require typing the project name unless the risk/evidence justifies it
 - Do not rely on colour alone for destructive-state communication
-- Define recovery behaviour for a failed deletion
+- Define cancellation and failed-deletion recovery behaviour
+- Keep the change bounded to this interaction
 - Produce implementation-ready behavioural acceptance criteria
 
 Workflow:
@@ -95,198 +89,159 @@ Workflow:
 - Design the interaction and feedback
 - Evaluate error prevention, recovery and accessibility
 - Preserve unaffected product behaviour
-- Hand off only the behaviour engineering needs to implement
 
 What to optimise for:
 - proportionate safeguards
 - explicit consequences
 - clear primary and cancellation actions
-- recoverable failure behaviour
+- recoverable failure
 - accessible feedback
 - minimal unnecessary friction
-```
-
-A small interaction project should stay small:
-
-```text
-ux/
-├── product-context.md
-├── interaction-requirements.md
-├── design/
-├── evaluations/
-└── handoff/
-```
-
-The important behaviour is:
-
-```text
-interaction requirement → lowest useful fidelity → design → evaluate → bounded handoff
 ```
 
 See [Destructive Confirmation](examples/level-1-destructive-confirmation/).
 
 ## Learn by producing
 
-Progress through increasingly demanding UI/UX responsibilities. The public scaffold currently contains one canonical example per level; the broader target catalogue is defined in the canonical specifications so future examples can vary product class and failure mode rather than converging on one house style.
+The public learning surface uses five progressive levels with three complementary examples per level.
 
 ### Level 1 — Control one interaction
 
 **Interaction requirement → states → interaction → evaluation**
 
-Learn feedback, affordance, error handling, recovery and accessibility without redesigning the surrounding product.
-
 | Example | Product | Design challenge |
 |---|---|---|
-| **[Destructive Confirmation](examples/level-1-destructive-confirmation/)** | Cloud file-management application | Add proportionate safeguards to permanent deletion without unnecessary friction |
+| [Destructive Confirmation](examples/level-1-destructive-confirmation/) | Cloud file management | Proportionate destructive safeguards and recovery |
+| [Inline Form Validation](examples/level-1-inline-form-validation/) | Account settings | Validation timing, feedback and accessible error recovery |
+| [Search and Filter](examples/level-1-search-and-filter/) | Support tickets | Visible filter state, reversible narrowing and empty/error states |
 
 ### Level 2 — Complete one user task
 
-**Task model → structural alternatives → selected flow → prototype contract → evaluation**
-
-Learn to model a task independently of screens, compare meaningful flow alternatives and validate the task rather than polishing individual pages.
+**Task model → structural alternatives → selected flow → evaluation**
 
 | Example | Product | Design challenge |
 |---|---|---|
-| **[Mobile Account Recovery](examples/level-2-mobile-account-recovery/)** | Native mobile banking application | Preserve recovery context across app interruption, code expiry and resend paths |
+| [Mobile Account Recovery](examples/level-2-mobile-account-recovery/) | Mobile banking | Interruption, expiry, resend and recovery |
+| [Guest Checkout](examples/level-2-guest-checkout/) | Ecommerce | Transactional flow, informed choice and payment recovery |
+| [API Permission Setup](examples/level-2-api-permission-setup/) | Developer platform | Technical configuration, validation and scope clarity |
 
-### Level 3 — Design a feature
+### Level 3 — Design one feature
 
-**Evidence + requirements → IA/task structure → interaction design → representative fidelity → feature evaluation**
-
-Learn multi-screen coherence, realistic states, responsive behaviour, visual direction and human-AI authority where relevant.
+**Requirements → IA/task structure → interaction design → representative fidelity → feature evaluation**
 
 | Example | Product | Design challenge |
 |---|---|---|
-| **[AI-Assisted Support](examples/level-3-ai-assisted-support/)** | Customer-support application | Integrate AI drafting while preserving source distinction, correction and user control |
+| [AI-Assisted Support](examples/level-3-ai-assisted-support/) | Customer support | AI authority, source distinction and correction |
+| [SaaS Analytics](examples/level-3-saas-analytics/) | B2B SaaS | Data hierarchy, IA and responsive analytical flow |
+| [Reference-Driven Developer Portal](examples/level-3-reference-driven-developer-portal/) | Developer portal | Reference-informed design without structural copying |
 
 ### Level 4 — Design a coherent product area
 
-**Several workflows → shared patterns → cross-flow consistency → local refinement**
-
-Learn design-system reasoning, dense operational information, complex states, accessibility across flows and dependency-aware correction.
+**Several workflows → shared patterns → cross-flow consistency → bounded refinement**
 
 | Example | Product | Design challenge |
 |---|---|---|
-| **[Operations Review Workspace](examples/level-4-operations-review-workspace/)** | Enterprise operations platform | Keep queue, case review, evidence, decision, escalation and history coherent without designing each screen independently |
+| [Operations Review Workspace](examples/level-4-operations-review-workspace/) | Enterprise operations | Dense operational state, shared patterns and preservation |
+| [Ecommerce Account Area](examples/level-4-ecommerce-account-area/) | Ecommerce | Orders, returns and saved-data coherence across flows |
+| [Media Discovery and Playback](examples/level-4-media-discovery-and-playback/) | Streaming media | Discovery-to-playback continuity and entitlement state |
 
 ### Level 5 — Research-to-validated redesign
 
-**Observed human problem → evidence → mechanism → requirement → hypothesis → alternatives → validation → bounded redesign → handoff**
-
-Learn the complete project thesis: preserve mixed evidence, reason about the human problem, generate structurally different interventions, test the cheapest credible representation, diagnose the owning failure layer and hand engineering an explicit interaction contract.
+**Evidence → mechanism → requirement → hypothesis → alternatives → validation → bounded redesign → handoff**
 
 | Example | Product | Design challenge |
 |---|---|---|
-| **[Interrupted Financial Decision](examples/level-5-interrupted-financial-decision/)** | Regulated financial-operations application | Explain repeated backtracking before a consequential decision and redesign only what the evidence shows is responsible |
+| [Interrupted Financial Decision](examples/level-5-interrupted-financial-decision/) | Regulated operations | Complete evidence-to-handoff lifecycle |
+| [Conflicting Evidence Redesign](examples/level-5-conflicting-evidence-redesign/) | Subscription management | Preserve contradiction and test competing explanations |
+| [Failed Interaction Hypothesis](examples/level-5-failed-interaction-hypothesis/) | Clinical scheduling | Retain valid knowledge while replacing a failed intervention |
 
-Every implemented example should keep its complete prompt, fixtures, expected properties, deliberate traps and evaluation evidence together. Multiple valid UX solutions may pass when they satisfy the required invariants.
+Every primary example contains a complete copyable generation prompt. Fixtures and reference outputs are added when an example is implemented so source material reflects a real testable case rather than a fabricated answer key.
 
 See the [Examples index](examples/README.md).
 
 ## Project structure grows with the work
 
 **One bounded interaction**  
-Use only the product context, interaction requirement, design artifact, evaluation and handoff you actually need.
+Use only the product context, interaction requirement, design artifact, evaluation and handoff actually needed.
 
 **The human problem is uncertain**  
-Add evidence, `human-problem.md`, research findings and interaction requirements before generating UI.
+Add evidence, human-problem framing and research findings before generating UI.
 
 **Alternatives are meaningful**  
 Add candidate task, IA or flow artifacts and record the selected direction instead of duplicating whole project trees.
 
 **Executable behaviour is required**  
-Add a prototype only when the unresolved question requires runtime interaction, device behaviour or semantic accessibility.
+Add a prototype only when runtime interaction, device behaviour or semantic accessibility is the unresolved question.
 
 **The work becomes a product area**  
 Add shared IA, design-system mappings, cross-flow states and broader evaluation only when multiple workflows genuinely need them.
 
 **A local defect needs repair**  
-Reopen the smallest owning layer. Preserve unaffected evidence, requirements, task models, flows and approved interactions.
+Reopen the smallest owning layer and preserve unaffected approved work.
 
-**Other Production Skills contribute**  
-Compose through explicit artifacts and handoff contracts rather than shared runtime dependencies.
-
-Keep the structure lean:
-
-- use the smallest artifact capable of resolving the current uncertainty;
-- keep evidence, interpretation, hypotheses and decisions distinguishable;
-- use stable identifiers where traceability matters instead of building a graph database prematurely;
-- preserve approved upstream decisions unless explicitly reopened;
-- keep project-specific evidence and decisions in the consuming project rather than this skills repository;
-- do not introduce a design-tool runtime, frontend framework, universal browser layer or UX database until a real workflow requires one.
-
-## Skills
+## Core skills
 
 ### `uiux-research`
 
-Turn product context and available evidence into a defensible human-problem model and interaction requirements.
-
-Use it for problem framing, evidence intake, provenance, synthesis, evidence gaps, candidate human mechanisms, human-science translation and research planning. It must keep observation, interpretation, evidence, implication, hypothesis and design distinct.
+Turn product context and evidence into a defensible human-problem model and interaction requirements while preserving provenance, uncertainty and competing explanations.
 
 ### `uiux-design`
 
-Turn interaction requirements into explicit, testable UX alternatives at the lowest useful fidelity.
-
-Use it for interaction hypotheses, task models, information architecture, flows, structural alternatives, fidelity selection, interaction behaviour, states, visual-direction integration and prototype contracts.
+Turn interaction requirements into explicit testable UX alternatives at the lowest useful fidelity.
 
 ### `uiux-evaluate`
 
-Determine whether a design satisfies its requirements and hypotheses, identify the owning failure layer and direct the smallest sufficient revision.
-
-Evaluation is actionable rather than just a score:
-
-```text
-insufficient evidence                 → gather evidence, do not design blindly
-wrong task structure                  → reopen task model
-sound flow, poor hierarchy            → fix layout/hierarchy only
-approved interaction lost in styling  → fail preservation
-axe/runtime defect                    → fix accessibility/implementation as appropriate
-implementation differs from approved UX → route engineering
-failed design hypothesis, mechanism still plausible → retain mechanism and try another intervention
-```
+Evaluate requirements and hypotheses, identify the owning failure layer and direct the smallest sufficient revision.
 
 ### `uiux-handoff`
 
-Convert approved UX into an explicit implementation contract while preserving behavioural intent and traceability.
+Convert approved UX into an explicit implementation contract with states, accessibility, responsive intent, acceptance criteria and traceability.
 
-Use it for interaction contracts, state behaviour, responsive intent, accessibility requirements, design-system mapping where known, acceptance criteria and evidence-to-engineering traceability. It does not own production architecture.
+## Pack authoring
 
-## Extension packs
+### `uiux-pack-create`
 
-UI/UX Design Skills remains fully usable without an Extension Pack. Packs add bounded specialist production rules to the four core skills without replacing the evidence-to-validation lifecycle.
+Create or revise reusable Extension Packs through:
 
-The catalogue currently defines three classes.
+```text
+pack:inspect
+→ pack:create
+→ pack:example
+→ pack:evals
+→ pack:validate
+```
 
-**Product / interaction**
+It is a support skill, not a fifth core UI/UX production skill.
 
-- `mobile-native`
-- `saas-dashboard`
-- `developer-tools`
-- `ecommerce`
-- `content-media`
-- `landing-page`
+## Extension Packs
 
-**Human science**
+Core UI/UX remains fully usable without a pack.
 
-- `cognitive-science`
-- `human-factors`
-- `behavioural-science`
-- `trust-and-ai-interaction`
-- `ux-measurement`
+Packs represent coherent reusable production profiles rather than low-level platform, psychology or design-style fragments.
 
-**Design specialisation**
+Initial catalogue:
 
-- `motion-design`
-- `design-system`
-- `reference-driven-design`
-- `immersive-web`
-- `conversion-design`
+- `native-mobile-critical-flow`
+- `trustworthy-ai-decision-support`
+- `reference-driven-saas-product`
+- `dense-operations-workspace`
+- `developer-tool-configuration`
+- `conversion-safe-ecommerce`
 
-The first-wave implementation candidates are `mobile-native`, `trust-and-ai-interaction` and `reference-driven-design`, one from each class. They remain deliberately unimplemented until the core Level 5 workflow is proven.
+The first three are implemented reference profiles with canonical showcase prompts.
 
-Persistent pack selection belongs to the consuming project or user. A pack may be explicitly selected, already configured, suggested, or temporarily inferred for one disclosed operation, but temporary inference must not silently become persistent project state.
+Human science, accessibility, UX measurement and design-system reasoning remain core responsibilities whether or not a pack is active.
 
-See the [Extension Pack catalogue and activation contract](extension-packs/README.md).
+Pack precedence:
+
+```text
+1. explicit project / user instructions
+2. approved UX artifacts and decisions
+3. selected Extension Pack
+4. core UI/UX defaults
+```
+
+See [Extension Packs](extension-packs/README.md), [Spec 05](docs/05-ui-ux-design-customisation-packs-spec.md) and [Spec 06](docs/06-ui-ux-design-extension-pack-catalogue.md).
 
 ## Execution
 
@@ -294,17 +249,13 @@ The skills decide **what UI/UX work is needed**. Existing tools execute speciali
 
 - **Playwright** — browser interaction, runtime-state inspection, screenshots and web-flow validation
 - **axe-core** — deterministic accessibility checks for executable web interfaces
-- **Storybook** — optional component/state inspection when the consuming project already uses it
+- **Storybook** — optional component/state inspection
 - **Maestro / Appium** — optional mobile interaction execution
 - **Figma** — optional design-tool representation and collaboration
 - **Consumer project runtime** — preferred environment for prototypes when it already exists
-- **Deep Research / external research tooling** — external evidence retrieval where specialist research is required
+- **Dedicated research tooling** — external evidence retrieval where specialist research is required
 
-The core does not maintain a browser framework, Figma replacement, frontend framework, analytics platform, universal screenshot engine or accessibility rules engine. Execution capabilities return evidence; UI/UX skills retain responsibility for the design question, evaluation and diagnosis.
-
-> **Use the cheapest representation capable of resolving the current UX uncertainty.**
->
-> **Preserve approved decisions and revise only the layer that failed.**
+The core does not maintain a browser framework, Figma replacement, frontend framework, analytics platform or accessibility rules engine.
 
 ## Repository checks
 
@@ -314,35 +265,31 @@ For contributors:
 npm test
 ```
 
-The current deterministic scaffold gate validates:
+The deterministic repository gate validates structural contracts including:
 
 ```text
+6 canonical specifications
 4 core skill packages
-→ 18 P0 command contracts
-→ canonical specifications
-→ examples / eval / benchmark surfaces
-→ repository structure
+18 core P0 command contracts
+uiux-pack-create + 5 authoring commands
+15 primary example READMEs
+Extension Pack catalogue / manifest / first-wave showcases
+first-wave pack skills
+repository structure
 ```
 
-The current validator proves scaffold integrity, not semantic UX quality. The benchmark specification defines the future command, skill, preservation, root-cause, end-to-end and Extension Pack evaluation layers.
-
-The target benchmark model deliberately separates deterministic invariants from semantic judgement and does not collapse UX into one numeric quality score.
+This validator proves repository integrity, not semantic UX quality. The benchmark specification owns semantic, preservation, root-cause, Extension Pack and installation evaluation.
 
 ## Documentation
 
 ### Specifications
 
-- [UI/UX Design Skills System Specification](docs/01-ui-ux-design-skills-system-spec.md)
-  - mission, scope, architecture, core skills, execution model, Extension Pack boundary and system acceptance
-
-- [UI/UX Design Skills Workflows and Artifacts Specification](docs/02-ui-ux-design-skills-workflows-and-artifacts-spec.md)
-  - evidence model, human problems, mechanisms, interaction requirements, hypotheses, task/IA/flows, fidelity, preservation, evaluation and handoff
-
-- [UI/UX Design Skills Repository and Contracts Specification](docs/03-ui-ux-design-skills-repository-and-contracts-spec.md)
-  - repository structure, `SKILL.md` contracts, 18 P0 commands, installation, examples and technical acceptance
-
-- [Testing and Benchmark Specification](docs/04-testing-and-benchmark-spec.md)
-  - deterministic and semantic evals, research/human-science evaluation, preservation, root cause, progressive examples, Extension Pack benchmarks and release gates
+1. [System Specification](docs/01-ui-ux-design-skills-system-spec.md)
+2. [Workflows and Artifacts Specification](docs/02-ui-ux-design-skills-workflows-and-artifacts-spec.md)
+3. [Repository and Contracts Specification](docs/03-ui-ux-design-skills-repository-and-contracts-spec.md)
+4. [Testing and Benchmark Specification](docs/04-testing-and-benchmark-spec.md)
+5. [Customisation Packs Specification](docs/05-ui-ux-design-customisation-packs-spec.md)
+6. [Extension Pack Catalogue](docs/06-ui-ux-design-extension-pack-catalogue.md)
 
 ### Project guidance
 
@@ -354,15 +301,15 @@ The target benchmark model deliberately separates deterministic invariants from 
 
 UI/UX Design Skills owns **reusable UI/UX production intelligence**, not a design application, frontend framework, research platform, universal accessibility engine or software-engineering runtime.
 
-It can consume external research, narrative/content, media and gameplay context through explicit artifacts. It returns interaction requirements, approved UX decisions, evaluation evidence and behavioural handoff contracts. Deep Research, Narrative, Video, Music, Game Development and Software Engineering remain independently owned Production Skills domains.
+It can consume external research, narrative/content, media and gameplay context through explicit artifacts. It returns interaction requirements, approved UX decisions, evaluation evidence and behavioural handoff contracts.
 
 Actual product evidence, research, decisions, approvals and UX artifacts belong to the consuming project. Pactwright, when used, owns delivery/governance lifecycle semantics rather than the UI/UX production workflow.
 
 ## Status
 
-Repository scaffolded. The four canonical specifications, four core `SKILL.md` packages, 18 P0 command contracts, five progressive example definitions, Extension Pack catalogue and deterministic repository validator are present.
+Repository scaffolded with six canonical specifications, four core skills, 18 P0 command contracts, one pack-authoring support skill, 15 primary progressive example definitions, a coherent Extension Pack catalogue, three first-wave pack skills/showcases and deterministic repository validation.
 
-The next bootstrap step validates clean-project skill discovery and selective installation before implementing the minimum end-to-end core workflow.
+Semantic benchmark cases and clean external installation evidence remain implementation gates before benchmarked/mature status.
 
 ## Licence
 
