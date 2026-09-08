@@ -2,13 +2,13 @@
 
 **File:** `01-ui-ux-design-skills-system-spec.md`  
 **Status:** Canonical  
-**Version:** 1.1
+**Version:** 1.2
 
 ## 1. Purpose
 
 `ui-ux-design-skills` is an open-source Agent Skills repository for evidence-grounded UI/UX production.
 
-It helps AI agents move from a human or product problem to an implementation-ready UX handoff through a disciplined lifecycle:
+It helps AI agents move from a human or product problem to an implementation-ready UX handoff through this lifecycle:
 
 ```text
 human / product problem
@@ -45,7 +45,7 @@ The system must help agents:
 9. preserve approved decisions during downstream refinement;
 10. produce implementation-ready interaction contracts and acceptance criteria;
 11. delegate specialised execution to existing tools rather than rebuilding them;
-12. remain installable as a small, agent-neutral open-source skills package.
+12. remain installable as a small, agent-neutral open-source skills product.
 
 ---
 
@@ -84,7 +84,7 @@ The repository is designed for:
 - accessibility specialists;
 - QA engineers;
 - human-science specialists;
-- AI coding agents and other Agent Skills-compatible runtimes.
+- AI coding agents and Agent Skills-compatible runtimes.
 
 ---
 
@@ -105,7 +105,7 @@ The core lifecycle is product-neutral and may be applied to:
 - AI-assisted interfaces;
 - landing pages and acquisition surfaces.
 
-Product-specific design grammar belongs in extension packs rather than the universal core.
+Specialist production grammars belong in Extension Packs only when they materially change reusable production behaviour.
 
 ---
 
@@ -117,21 +117,11 @@ Observed friction must not automatically be diagnosed as a UI defect.
 
 ### 6.2 Evidence before design folklore
 
-The system must distinguish:
-
-- empirical product evidence;
-- established scientific evidence;
-- product-specific observation;
-- synthetic evidence;
-- reference evidence;
-- design hypothesis;
-- expert judgement.
+The system distinguishes empirical product evidence, scientific evidence, product observation, synthetic evidence, reference evidence, design hypotheses and expert judgement.
 
 These are not interchangeable.
 
 ### 6.3 Observation is not explanation
-
-The lifecycle preserves the distinctions:
 
 ```text
 observe
@@ -155,23 +145,27 @@ Downstream refinement inherits approved upstream decisions unless the owning lay
 
 ### 6.7 Evaluation is diagnostic
 
-The system evaluates against explicit requirements and hypotheses and identifies the smallest owning failure layer.
+Evaluation identifies the smallest owning failure layer rather than only scoring output quality.
 
 ### 6.8 Accessibility is continuous
 
-Accessibility is not a late review step. It participates in requirements, design, evaluation and handoff.
+Accessibility participates in requirements, design, evaluation and handoff. It is not an optional pack or late review stage.
 
-### 6.9 Synthetic research remains supporting evidence
+### 6.9 Human science remains core
+
+Human-science reasoning, competing mechanisms, context applicability and human-performance evaluation remain core behaviour whether or not an Extension Pack is active.
+
+### 6.10 Synthetic research remains supporting evidence
 
 Synthetic subjects may help explore hypotheses, edge cases and research questions, but synthetic responses cannot be represented as observed human evidence.
 
-### 6.10 Tooling is subordinate to design intent
+### 6.11 Tooling is subordinate to design intent
 
 The project owns what work should happen and why. Existing tools execute specialised operations.
 
-### 6.11 Extract only after repeated need
+### 6.12 Extract only after repeated need
 
-Shared abstractions remain project-local until at least two production domains demonstrate the same operational need.
+Shared abstractions remain project-local until at least two production domains demonstrate substantially the same operational need.
 
 ---
 
@@ -201,7 +195,7 @@ REFINE THE SMALLEST SUFFICIENT SCOPE
 HAND OFF
 ```
 
-The default core-skill mapping is:
+Core-skill mapping:
 
 ```text
 uiux-research
@@ -210,7 +204,7 @@ uiux-research
 → uiux-handoff
 ```
 
-Evaluation may reopen research or design when evidence shows an upstream assumption is wrong.
+Evaluation may reopen research or design only when evidence shows an upstream assumption is wrong.
 
 ---
 
@@ -223,16 +217,12 @@ Evaluation may reopen research or design when evidence shows an upstream assumpt
 Owns:
 
 - human-problem framing;
-- evidence intake and classification;
-- provenance;
-- research synthesis;
-- conflicting evidence;
-- confidence;
-- evidence gaps;
+- evidence intake, classification and provenance;
+- research synthesis and conflicting evidence;
+- confidence and evidence gaps;
 - candidate human mechanisms;
 - human-science translation;
-- interaction implications;
-- interaction requirements;
+- interaction implications and requirements;
 - research planning.
 
 **P0 commands:**
@@ -243,16 +233,6 @@ ingest-evidence
 identify-mechanisms
 define-interaction-requirements
 ```
-
-Later commands may include:
-
-```text
-synthesize-evidence
-identify-evidence-gaps
-plan-research
-```
-
----
 
 ### 8.2 `uiux-design`
 
@@ -266,9 +246,7 @@ Owns:
 - flows;
 - structural alternatives;
 - fidelity selection;
-- wireframe strategy;
-- interaction behaviour;
-- state definition;
+- interaction behaviour and states;
 - visual-direction integration;
 - prototype strategy;
 - selection rationale;
@@ -285,23 +263,11 @@ create-flow
 prepare-prototype
 ```
 
-Later commands may include:
-
-```text
-model-information-architecture
-create-wireframe
-define-interaction
-specify-states
-define-visual-direction
-```
-
-A separate `uiux-prototype` core skill is intentionally omitted. The project owns prototype intent and contract, while execution is delegated.
-
----
+A separate `uiux-prototype` core skill is intentionally omitted. The project owns prototype intent and contract; execution is delegated.
 
 ### 8.3 `uiux-evaluate`
 
-**Mission:** Determine whether a design satisfies its requirements and hypotheses, diagnose failure at the correct layer and direct the smallest sufficient revision.
+**Mission:** Determine whether a design satisfies requirements and hypotheses, diagnose failure at the correct layer and direct the smallest sufficient revision.
 
 Owns:
 
@@ -329,29 +295,13 @@ diagnose-failure
 recommend-refinement
 ```
 
-Later commands may include:
-
-```text
-run-checks
-evaluate-task-flow
-evaluate-hierarchy
-evaluate-accessibility
-evaluate-human-performance
-evaluate-error-recovery
-evaluate-trust
-evaluate-design-consistency
-```
-
----
-
 ### 8.4 `uiux-handoff`
 
-**Mission:** Convert an approved UX into an explicit implementation contract while preserving evidence and decision rationale.
+**Mission:** Convert approved UX into an explicit implementation contract while preserving evidence and decision rationale.
 
 Owns:
 
-- interaction contracts;
-- states;
+- interaction contracts and states;
 - responsive behaviour;
 - accessibility requirements;
 - content behaviour where relevant;
@@ -369,19 +319,31 @@ define-acceptance-criteria
 verify-traceability
 ```
 
-Later commands may include:
+---
+
+## 9. Support Skill
+
+### `uiux-pack-create`
+
+`uiux-pack-create` is an installable support/authoring skill, not a fifth core UI/UX production skill.
+
+It owns:
 
 ```text
-specify-responsive-behaviour
-map-design-system
-prepare-handoff
+pack:inspect
+pack:create
+pack:example
+pack:evals
+pack:validate
 ```
+
+It creates or revises coherent Extension Packs while protecting core UX responsibilities.
 
 ---
 
-## 9. Skill Independence
+## 10. Skill Independence
 
-Each installable skill must remain useful independently.
+Each core skill remains independently useful.
 
 Examples:
 
@@ -389,15 +351,13 @@ Examples:
 - `uiux-handoff` can consume an externally approved design;
 - `uiux-design` can consume externally supplied requirements.
 
-Missing upstream artifacts reduce certainty but must not make the skill unusable.
+Missing upstream artifacts reduce certainty but must not make a skill unusable where meaningful work remains possible.
 
 Skills communicate through stable artifacts and identifiers, not internal service APIs.
 
 ---
 
-## 10. Execution Architecture
-
-The system uses five conceptual layers:
+## 11. Execution Architecture
 
 ```text
 1. UX intelligence
@@ -416,164 +376,109 @@ The system uses five conceptual layers:
    browser, mobile, design tools, analytics, research
 ```
 
-### Core rule
-
-A skill decides:
-
-- what needs testing;
-- why;
-- at what fidelity;
-- which states matter;
-- what counts as failure;
-- which owning layer should reopen.
+A skill decides what needs testing, why, at what fidelity, which states matter, what counts as failure and which owning layer should reopen.
 
 External tools execute the operation and return evidence.
 
 ---
 
-## 11. External Execution Policy
+## 12. External Execution Policy
 
 The base skill package must not require Playwright, Storybook, Figma, Maestro, Appium or a specific frontend framework.
 
 Where present or justified:
 
-- browser interaction and screenshots: Playwright;
-- visual regression: Playwright or existing project provider;
-- deterministic web accessibility: axe;
-- component/state workbench: existing Storybook;
-- mobile interaction: Maestro or existing Appium;
-- design-tool integration: optional Figma;
-- external analytics: consumer project infrastructure;
-- external literature/web research: dedicated research capability;
-- production implementation: software engineering.
+```text
+browser interaction / screenshots  → Playwright
+web accessibility                  → axe
+component/state workbench          → existing Storybook
+mobile interaction                 → Maestro / existing Appium
+design-tool integration            → optional Figma
+analytics                          → consuming project
+literature / web research          → dedicated research capability
+production implementation          → Software Engineering
+```
 
-The preferred selection order is:
+Preferred selection order:
 
 ```text
 existing project tooling
 → local open tooling
-→ optional MCP/persistent integration
+→ optional persistent integration
 → hosted service
 ```
 
-CLI execution is preferred to MCP when capabilities are equivalent and persistent application state is unnecessary.
+Missing tools reduce automation. They do not invalidate the UX workflow.
 
 ---
 
-## 12. Native Deterministic Tooling
+## 13. Native Deterministic Tooling
 
-Native scripts are justified only when all three conditions hold:
+Native scripts are justified only when:
 
 1. the operation encodes a project-specific invariant;
 2. the result can be evaluated deterministically;
 3. no strong external tool already owns the operation.
 
-Likely native checks include:
-
-- artifact-schema validation;
-- provenance/reference validation;
-- decision dependency checks;
-- approval-preservation checks;
-- required-state completeness;
-- hypothesis-contract validation;
-- handoff completeness;
-- small UX metric calculators when a benchmark requires them.
+Likely checks include artifact validation, provenance/reference validation, approval-preservation checks, required-state completeness, hypothesis-contract validation and handoff completeness.
 
 Do not implement native browser, screenshot, pixel-diff or WCAG engines.
 
 ---
 
-## 13. Extension-Pack Architecture
+## 14. Extension Pack Architecture
 
-Extension packs specialise the core lifecycle.
+Extension Packs specialise the core lifecycle through coherent reusable UX production profiles.
 
-Classes:
+The normative pack contract is owned by:
 
-```text
-product-interaction
-human-science
-design-specialisation
-```
+- `05-ui-ux-design-customisation-packs-spec.md`
+
+The curated catalogue is owned by:
+
+- `06-ui-ux-design-extension-pack-catalogue.md`
+
+Core remains fully usable without a pack.
 
 Initial catalogue:
 
-### Product / Interaction
-
 ```text
-mobile-native
-saas-dashboard
-developer-tools
-ecommerce
-content-media
-landing-page
+native-mobile-critical-flow
+trustworthy-ai-decision-support
+reference-driven-saas-product
+dense-operations-workspace
+developer-tool-configuration
+conversion-safe-ecommerce
 ```
 
-### Human Science
+First-wave implemented profiles:
 
 ```text
-cognitive-science
-human-factors
-behavioural-science
-trust-and-ai-interaction
-ux-measurement
+native-mobile-critical-flow
+trustworthy-ai-decision-support
+reference-driven-saas-product
 ```
 
-### Design Specialisation
+Packs must not turn human science, accessibility, UX measurement or design-system reasoning into optional concerns.
+
+### Precedence
 
 ```text
-motion-design
-design-system
-reference-driven-design
-immersive-web
-conversion-design
+1. explicit project / user instructions
+2. approved UX artifacts and decisions
+3. selected Extension Pack
+4. core UI/UX defaults
 ```
 
-First-wave implementation candidates:
+### Composition
 
-```text
-mobile-native
-trust-and-ai-interaction
-reference-driven-design
-```
-
-One from each class is sufficient to prove the extension architecture.
-
----
-
-## 14. Extension Invariants
-
-Packs may add:
-
-- research questions;
-- evidence requirements;
-- mechanisms;
-- interaction constraints;
-- task patterns;
-- fidelity guidance;
-- platform conventions;
-- evaluation criteria;
-- specialist metrics;
-- references;
-- tool preferences.
-
-Packs may not:
-
-- replace the four core skills;
-- remove provenance;
-- weaken accessibility;
-- bypass approval;
-- redefine synthetic evidence as observed evidence;
-- silently override another pack;
-- replace bounded refinement;
-- take ownership of production engineering.
-
-All packs extend core directly. Nested pack inheritance and dependency solvers are deferred.
+The initial model prefers one coherent pack plus explicit project requirements. Low-level pack composition, dependency solving and inheritance are deferred until repeated use proves a stable need.
 
 ---
 
 ## 15. Progressive Example Model
 
-The repository uses five example levels:
+The public learning surface uses five levels with three complementary primary examples each:
 
 ```text
 Level 1 — control one interaction
@@ -583,7 +488,11 @@ Level 4 — design a coherent product area
 Level 5 — research-to-validated redesign
 ```
 
-Level 5 tests the complete project thesis:
+Each primary example contains a complete copyable generation prompt.
+
+The 15 examples are selected for combined capability coverage rather than aesthetic variety alone.
+
+Level 5 exercises the complete thesis:
 
 ```text
 evidence
@@ -599,8 +508,6 @@ evidence
 → handoff
 ```
 
-An early Level 5 proof should be built before broadening the example catalogue.
-
 ---
 
 ## 16. Build Order
@@ -608,32 +515,23 @@ An early Level 5 proof should be built before broadening the example catalogue.
 Recommended implementation sequence:
 
 ```text
-1. Implement four core skill contracts.
-
-2. Implement the P0 command set.
-
-3. Implement the minimum artifact contracts.
-
-4. Build focused command evals.
-
-5. Prove one complete Level 5 workflow.
-
-6. Add preservation and root-cause benchmarks.
-
-7. Add Level 1–4 examples.
-
-8. Implement first-wave extension packs.
-
-9. Test pack composition.
-
-10. Expand catalogue only where evidence justifies it.
+1. prove core skill and P0 command contracts
+2. implement minimum artifact contracts
+3. build focused command evals
+4. prove one complete Level 5 vertical
+5. add preservation and root-cause benchmarks
+6. implement progressive example coverage
+7. implement first-wave coherent Extension Packs
+8. prove pack authoring and core-vs-pack evaluation
+9. validate local and clean consumer-project installation
+10. expand packs/examples only from demonstrated need
 ```
 
 ---
 
 ## 17. Deferred Architecture
 
-The following are explicitly deferred until repeated operational evidence justifies them:
+Deferred until repeated operational evidence justifies them:
 
 - UX graph database;
 - universal execution adapter framework;
@@ -649,10 +547,9 @@ The following are explicitly deferred until repeated operational evidence justif
 - mandatory Storybook runtime;
 - hosted evaluation dashboard;
 - continuous autonomous UX monitoring;
-- nested extension packs;
+- low-level Extension Pack composition;
+- nested pack inheritance;
 - cross-project abstraction framework.
-
-These are follow-up opportunities, not first-release requirements.
 
 ---
 
@@ -660,8 +557,8 @@ These are follow-up opportunities, not first-release requirements.
 
 The system is implementation-ready when:
 
-- all four skills are installable independently;
-- the P0 commands are executable and benchmarkable;
+- all four core skills are installable independently;
+- all 18 P0 commands are executable and benchmarkable;
 - evidence provenance survives the lifecycle;
 - synthetic evidence is never silently upgraded;
 - interaction requirements remain solution-independent;
@@ -671,26 +568,19 @@ The system is implementation-ready when:
 - approved upstream decisions survive downstream refinement;
 - handoff acceptance criteria trace back to UX requirements;
 - browser/accessibility/mobile execution can be delegated without becoming core dependencies;
-- at least one Level 5 end-to-end example succeeds;
-- extension packs can specialise the lifecycle without redefining it;
+- at least one Level 5 end-to-end workflow succeeds;
+- 15 primary examples define progressive coverage;
+- first-wave Extension Packs can specialise the lifecycle without redefining it;
+- `uiux-pack-create` can author and validate packs without duplicating core behaviour;
 - clean consumer-project installation succeeds.
 
 ---
 
-## 19. Governing Rule
+## 19. Production Skills Family Boundaries
 
-The project should be judged by whether an AI agent can:
+The reusable skill repository owns UI/UX production semantics. Instantiated product evidence, decisions, approvals and UX artifacts belong to the consuming project.
 
-> maintain a traceable chain from human evidence to interaction decisions, choose the cheapest useful design representation, validate those decisions, identify the layer that failed, preserve what has already been approved and hand engineering an explicit behavioural contract.
-
-Everything else is subordinate to that goal.
-
-
-## 20. Production Skills Family Boundaries
-
-The reusable skill repository owns UI/UX production semantics. Instantiated product evidence, decisions, approvals and UX artifacts belong to the consuming project or its project-knowledge system.
-
-When Pactwright is used, keep the semantics distinct:
+When Pactwright is used:
 
 ```text
 UI/UX Evidence
@@ -706,8 +596,18 @@ Pactwright lifecycle authority
 → consuming-project delivery/governance state
 ```
 
-UI/UX skills must not define Pactwright lifecycle topology, Project Graph semantics, or project-governance states. Cross-domain composition remains artifact/contract-first.
+UI/UX skills must not define Pactwright lifecycle topology, Project Graph semantics or project-governance states. Cross-domain composition remains artifact/contract-first.
 
 ---
 
-*UI/UX Design Skills — System Specification v1.1*
+## 20. Governing Rule
+
+The project should be judged by whether an AI agent can:
+
+> maintain a traceable chain from human evidence to interaction decisions, choose the cheapest useful design representation, validate those decisions, identify the layer that failed, preserve what has already been approved and hand engineering an explicit behavioural contract.
+
+Everything else is subordinate to that goal.
+
+---
+
+*UI/UX Design Skills — System Specification v1.2*
